@@ -77,8 +77,9 @@ async function _handleRequest (req: IPXHRequest, ipx: IPX): Promise<IPXHResponse
 
   // ETag
   const etag = getEtag(data)
+  const replacedEtag = etag.replace(/"/g, '\\"');
   res.headers.ETag = etag
-  if (etag && req.headers['if-none-match'] === etag) {
+  if (etag && req.headers['if-none-match'] === replacedEtag) {
     res.statusCode = 304
     return res
   }
